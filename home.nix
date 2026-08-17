@@ -5,6 +5,8 @@
       home.homeDirectory = "/home/daniel";
       home.stateVersion = "26.05";
 
+      programs.git.enable = "true";
+
       programs.bash = {
         enable = true;
 	shellAliases = {
