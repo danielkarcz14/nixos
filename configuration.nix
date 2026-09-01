@@ -1,15 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
  
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos-btw"; 
+
   networking.networkmanager.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -58,10 +54,13 @@
     tealdeer
     xclip
     bat
+    libxcvt
+    pciutils
+    usbutils
   ];
   
   fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
+    jetbrains-mono
   ];
     
   system.stateVersion = "26.05";

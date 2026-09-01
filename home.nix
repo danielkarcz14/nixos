@@ -5,7 +5,7 @@
       home.homeDirectory = "/home/daniel";
       home.stateVersion = "26.05";
 
-      programs.git.enable = "true";
+      programs.git.enable = true;
 
       programs.bash = {
         enable = true;
@@ -37,7 +37,7 @@
 	--paging=auto
       '';
 
-      home.file.".config/qtile".source = /home/daniel/nixos-dotfiles/qtile;
+      home.file.".config/qtile".source = ./qtile;
 
       home.packages = with pkgs; [
 	bat

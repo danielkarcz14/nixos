@@ -12,13 +12,14 @@
           system = "x86_64-linux";	
 	  modules = [ 
 		./configuration.nix
+		./hosts/desktop
 		home-manager.nixosModules.home-manager
 		{
 		    home-manager = {
 		         useGlobalPkgs = true;
 			 useUserPackages = true;
 			 users.daniel = import ./home.nix;
-			 backupFilesExtension = "backup";
+			 backupFileExtension = "backup";
 		    };
 		}
 	    ];
