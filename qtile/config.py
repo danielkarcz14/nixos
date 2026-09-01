@@ -57,9 +57,18 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.spawn("firefox")),
-    Key([mod], "f", lazy.spawn("pcmanfm")),
+    Key([mod], "e", lazy.spawn("pcmanfm")),
     Key([mod], "d", lazy.spawn("rofi -show drun")),
-]
+    
+
+    # screenshots
+    Key([], "Print", lazy.spawn("bash -c 'maim -s | xclip -selection clipboard -t image/png'"),
+        desc="Screenshot: select region to clipboard"),
+    Key(["shift"], "Print", lazy.spawn("bash -c 'maim ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png'"),
+        desc="Screenshot: full screen to file"),
+    Key([mod], "Print", lazy.spawn("bash -c 'maim -s ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png'"),
+        desc="Screenshot: select region to file"),
+   ]
 
 # Add key bindings to switch VTs in Wayland.
 # We can't check qtile.core.name in default config as it is loaded before qtile is started
