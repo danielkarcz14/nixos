@@ -24,11 +24,11 @@
 
 
  
-  services.picom = {
-    enable = true;
-    backend = "glx";
-    fade = true;
-  };
+#  services.picom = {
+#    enable = true;
+#    backend = "glx";
+#    fade = true;
+#  };
 
    users.users.daniel = {
       isNormalUser = true;
@@ -62,6 +62,16 @@
   fonts.packages = with pkgs; [
     jetbrains-mono
   ];
+
+  # Cachix binary caches
+  nix.settings = {
+    extra-substituters = [
+      "https://noctalia.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
     
   system.stateVersion = "26.05";
 }
