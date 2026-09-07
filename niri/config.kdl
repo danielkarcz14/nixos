@@ -33,9 +33,10 @@ layout {
     }
     default-column-width { proportion 0.5; }
     focus-ring {
-        width 2
-        active-color "#7fc8ff"
-        inactive-color "#505050"
+        //width 2
+        //active-color "#7fc8ff"
+        //inactive-color "#505050"
+	off
     }
     border {
         off
@@ -55,7 +56,7 @@ spawn-at-startup "xwayland-satellite"
 binds {
     // === Basic session ===
     Mod+Shift+Slash { show-hotkey-overlay; }        // Show all keybinds
-    Mod+T           { spawn "alacritty"; }
+    Mod+T           { spawn "ghostty"; }
     //  Mod+D           { spawn "fuzzel"; }             // App launcher (need to install)
     Mod+D           { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
     Mod+Q           { close-window; }
@@ -111,4 +112,7 @@ binds {
     Mod+N           { spawn "noctalia" "msg" "panel-toggle" "notifications"; }
     Mod+Comma       { spawn "noctalia" "msg" "settings-toggle"; }
     Mod+Ctrl+L      { spawn "noctalia" "msg" "panel-toggle" "session"; }
+
+ 
  }
+

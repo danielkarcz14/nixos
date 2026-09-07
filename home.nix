@@ -10,6 +10,14 @@
 
   programs.git.enable = true;
 
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
+
   programs.bash = {
     enable = true;
   shellAliases = {
@@ -26,18 +34,32 @@
   '';
  };
 
-  programs.alacritty = {
+  programs.ghostty = {
     enable = true;
     settings = {
-      window.opacity = 0.9;
-      font.normal = {
-        family = "JetBrains Mono";
-        style = "Regular";
-      };
-      font.size = 16;
+      # Průhlednost
+      background-opacity = 0.75;
+
+      # Font
+      font-family = "JetBrainsMono Nerd Font";
+      font-size = 16;
+
+      # Vzhled
+      window-padding-x = 8;
+      window-padding-y = 8;
+      cursor-style = "block";
+
+      # Bez zvukového bell
+      # audible-bell = false;
+
+      # Šetří místo — bez tabs bar když je jen 1 tab
+      window-decoration = "none";
+
+      # Theme (volitelné - vyzkoušej si)
+      # theme = "catppuccin-mocha";
     };
   };
-
+ 
   programs.noctalia = {
     enable = true;
     systemd.enable = true;  # Noctalia poběží jako systemd user service (doporučené)
@@ -79,7 +101,32 @@
     wev               # keyboard event viewer (nahrazuje xev)
     xwayland-satellite # spouští Xwayland démona pro X11 apky pod Niri
     fuzzel
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only  # jen ikony, fallback pro ostatní fonty
+    spotify
+    slack
+    papirus-icon-theme
+    hicolor-icon-theme    # fallback, měl by tam být default
+    adwaita-icon-theme    # pro GTK apps default fallback
+    discord
+    teams-for-linux
+    citrix_workspace
+    chromium
   ];
 
   programs.home-manager.enable = true;
+
+  xdg.mimeApps = {
+    enable = true;
+    associations.added = {
+      "application/x-ica" = [ "wfica.desktop" ];
+      "x-scheme-handler/receiver" = [ "wfica.desktop" ];
+      "x-scheme-handler/citrixreceiver" = [ "wfica.desktop" ];
+    };
+    defaultApplications = {
+      "application/x-ica" = [ "wfica.desktop" ];
+      "x-scheme-handler/receiver" = [ "wfica.desktop" ];
+      "x-scheme-handler/citrixreceiver" = [ "wfica.desktop" ];
+    };
+  };
 }

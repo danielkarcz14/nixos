@@ -54,4 +54,22 @@
     # Kurzor fix na NVIDIA (občas se hodí)
     WLR_NO_HARDWARE_CURSORS = "1";
   };
+
+  # Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;      # Streamovat hry
+    dedicatedServer.openFirewall = true; # Pro dedicated servers
+    gamescopeSession.enable = true;      # Gamescope wrapper (fajn pro Wayland)
+  };
+
+ 
+  # Citrix - musí přijmout EULA
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "citrix-workspace"
+    "steam"
+    "steam-original"
+    "steam-run"
+    "steam-unwrapped"
+  ];
 }

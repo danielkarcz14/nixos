@@ -72,7 +72,12 @@
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
-    
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "libsoup-2.74.3"
+    ];
+  };    
   system.stateVersion = "26.05";
 }
 
