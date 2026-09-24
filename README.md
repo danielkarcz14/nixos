@@ -1,52 +1,80 @@
-# nixos-laptop — manual setup
+# nixos-dotfiles
 
-`nixos-rebuild switch --flake .#nixos-laptop` handles the OS and (almost)
-every app. These few things can't be expressed in Nix and need to be done
-by hand, once, on the laptop.
+Flake-parts + [import-tree](https://github.com/vic/import-tree) "dendritic" layout:
+every `.nix` file under `modules/` auto-registers a slice of config under a named
+tag (`flake.modules.nixos.<tag>`), and `modules/hosts/*.nix` just composes the tags
+each machine needs.
 
-## 0. Before the first rebuild
+```
+modules/
+  flake-parts.nix     # flake-parts boilerplate
+  base/                # applies to every host: user, boot, networking, nix settings, fonts, packages
+  desktop/             # niri + noctalia + ghostty + gtk + wayland utils (both hosts)
+  shell/               # bash, bat (both hosts)
+  dev/                 # git, editor/CLI tooling (both hosts)
+  software/            # chat/media/browser/citrix apps (both hosts); steam (nixos-btw only)
+  hardware/nvidia.nix  # NVIDIA driver + KMS setup — nixos-btw only, NOT pulled in for the laptop
+  hosts/               # nixos-btw.nix, nixos-laptop.nix — pick which tags each host gets
+```
 
-The laptop's real `hosts/laptop/hardware-configuration.nix` isn't in this
-repo (it's per-machine and git-ignored on purpose). Generate and force-add
-it before the flake will evaluate at all:
+`nixpkgs` and `home-manager` both track `nixos-unstable`/unstable on purpose (kept
+in sync via `home-manager.inputs.nixpkgs.follows`) — that's what's needed for
+`wayland.windowManager.niri`, which isn't in home-manager's stable release branches yet.
+
+`nixos-rebuild switch --flake .#<hostname>` handles the OS and (almost) every app
+declaratively. A few things can't be expressed in Nix and need to be done by hand,
+once, per machine.
+
+## 0. Before the first rebuild on a new machine
+
+`hosts/<host>/hardware-configuration.nix` isn't in this repo (it's per-machine and
+git-ignored on purpose) — generate and force-add it before the flake will evaluate
+at all:
 
 ```sh
 sudo nixos-generate-config --show-hardware-config > hosts/laptop/hardware-configuration.nix
 git add -f hosts/laptop/hardware-configuration.nix
 ```
 
+**NVIDIA note:** `modules/hardware/nvidia.nix` is only composed into `nixos-btw`
+(`modules/hosts/nixos-btw.nix`) — the laptop host doesn't import it at all, so
+nothing NVIDIA-related gets installed there. `nixos-laptop` just sets a generic
+`hardware.graphics.enable = true`; see the TODO block in
+`modules/hosts/nixos-laptop.nix` for GPU-specific options to fill in once you know
+the laptop's actual hardware (AMD/Intel/NVIDIA-Optimus).
+
 ## 1. Citrix Workspace
 
-`citrix_workspace` is unfree and Citrix's EULA blocks nixpkgs from fetching
-it automatically — the tarball has to be downloaded by hand first.
+`citrix-workspace` is unfree and Citrix's EULA blocks nixpkgs from fetching it
+automatically — the tarball has to be downloaded by hand first.
 
 1. Accept the EULA and download the 64-bit `.tar.gz` from:
    https://www.citrix.com/downloads/workspace-app/linux/workspace-app-for-linux-latest.html
-   (currently pinned version: **26.01.0.150** → filename `linuxx64-26.01.0.150.tar.gz`;
-   if the flake gets updated later, `nixos-rebuild` will print the exact
-   filename/version it now expects)
+   (pinned version as of this writing: **26.08.0.153** → filename
+   `linuxx64-26.08.0.153.tar.gz`; since `nixpkgs` tracks unstable this drifts
+   often — `nixos-rebuild` always prints the exact filename/version it currently
+   expects, so just match that)
 2. Add it to the Nix store so the build can find it:
    ```sh
-   nix-prefetch-url file://$PWD/linuxx64-26.01.0.150.tar.gz
+   nix-prefetch-url file://$PWD/linuxx64-<version>.tar.gz
    ```
-3. Re-run `nixos-rebuild switch --flake .#nixos-laptop`.
+3. Re-run `nixos-rebuild switch --flake .#<hostname>`.
 
-## 2. Wallpaper images
+## 2. Wallpaper image
 
-Two different wallpaper paths are referenced and neither image is in the
-repo:
+Declared in `modules/desktop/noctalia.nix` (`wallpaper.default.path`), not shipped
+in the repo:
 
-| Used by | Path |
-|---|---|
-| Noctalia (`home.nix`) | `~/Pictures/wallpapers/wolf.jpg` |
-| X11/Qtile session (`configuration.nix`) | `~/Downloads/walls/wolf.jpg` |
+```
+~/Pictures/wallpapers/wolf.jpg
+```
 
-Put the same (or your preferred) image at both paths, or point the configs
-at wherever you'd rather keep it.
+Put your preferred image there, or point that option at wherever you'd rather
+keep it.
 
 ## 3. Git identity
 
-`home.nix` only sets `programs.git.enable = true` — no name/email/signing
+`modules/dev/git.nix` only sets `programs.git.enable = true` — no name/email/signing
 key is declared, so commits won't work until you set them yourself:
 
 ```sh
@@ -54,21 +82,26 @@ git config --global user.name "..."
 git config --global user.email "..."
 ```
 
-If you sign commits or push over SSH, your key(s) also need to be placed
-in `~/.ssh` manually — keys aren't (and shouldn't be) stored in this repo.
+If you sign commits or push over SSH, your key(s) also need to be placed in
+`~/.ssh` manually — keys aren't (and shouldn't be) stored in this repo.
 
 ## Optional: restore your Noctalia panel/bar layout
 
-`noctalia-state/settings.toml` is a snapshot of your desktop's Noctalia
-settings, but it's **not** wired into `home.nix` — it won't be applied
-automatically by a rebuild. If you want the laptop to start with the same
-bar/panel layout instead of the defaults declared in `home.nix`, copy it
-in by hand after the first rebuild:
+Noctalia keeps two separate files: `config.toml` (generated by home-manager from
+`programs.noctalia.settings` in `modules/desktop/noctalia.nix` — theme, wallpaper)
+and `settings.toml`, which noctalia itself owns and freely rewrites whenever you
+customize the bar/panel through its own settings UI. `settings.toml` is
+**intentionally not Nix-managed** (symlinking it read-only into the store would
+just get clobbered — or get your live edits wiped — on the next rebuild).
+
+`noctalia-state/settings.toml` in this repo is a manual, point-in-time snapshot of
+that file taken from the desktop. It's not wired into anything and can go stale —
+if you want a new machine to start with the same bar/panel layout instead of the
+defaults, copy it in by hand after the first rebuild:
 
 ```sh
 cp noctalia-state/settings.toml ~/.config/noctalia/settings.toml
 ```
 
-(Note: that snapshot points at a different wallpaper file,
-`y4cxvsb8hbk71.png`, than the one `home.nix` declares — swap in whichever
-one you actually want.)
+(Note: that snapshot points at a different wallpaper file, `y4cxvsb8hbk71.png`,
+than the one declared above — swap in whichever one you actually want.)
