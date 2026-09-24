@@ -62,6 +62,7 @@ binds {
     Mod+Q           { close-window; }
     Mod+Shift+E     { quit; }
     Mod+Shift+P     { power-off-monitors; }
+    Mod+Escape      { spawn "noctalia" "msg" "session" "lock"; }
 
     // === Screenshots (built-in in Niri) ===
     Print                 { spawn "noctalia" "msg" "screenshot-region"; }
