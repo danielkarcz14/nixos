@@ -9,33 +9,13 @@
     };
     noctalia.url = "github:noctalia-dev/noctalia";
     # Note: záměrně NEmáme inputs.nixpkgs.follows — zachovává kompatibilitu s Cachix cache
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = { self, nixpkgs, home-manager, noctalia, ... }@inputs:
-    let
-      commonModules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = { inherit inputs; };
-            users.daniel = import ./home.nix;
-            backupFileExtension = "backup";
-          };
-        }
-      ];
-
-      mkHost = hostModule: nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = commonModules ++ [ hostModule ];
-      };
-    in {
-      nixosConfigurations = {
-        nixos-btw    = mkHost ./hosts/desktop;
-        nixos-laptop = mkHost ./hosts/laptop;
-      };
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

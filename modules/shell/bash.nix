@@ -1,0 +1,22 @@
+{ ... }:
+{
+  flake.modules.nixos.shell = {
+    home-manager.users.daniel = {
+      programs.bash = {
+        enable = true;
+        shellAliases = {
+          btw = "echo i use nixos btw";
+        };
+
+        initExtra = ''
+          PS1='\[\e[38;5;41m\]\u\[\e[0m\] in \[\e[38;5;39m\]\w\[\e[0m\] \$ '
+
+          nrs() { sudo nixos-rebuild switch --flake "$HOME/nixos-dotfiles#$(hostname)" "$@"; }
+          nrt() { sudo nixos-rebuild test   --flake "$HOME/nixos-dotfiles#$(hostname)" "$@"; }
+          nrb() { sudo nixos-rebuild boot   --flake "$HOME/nixos-dotfiles#$(hostname)" "$@"; }
+          nfu() { nix flake update "$HOME/nixos-dotfiles"; }
+        '';
+      };
+    };
+  };
+}
