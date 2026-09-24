@@ -50,10 +50,13 @@ automatically — the tarball has to be downloaded by hand first.
 
 1. Accept the EULA and download the 64-bit `.tar.gz` from:
    https://www.citrix.com/downloads/workspace-app/linux/workspace-app-for-linux-latest.html
-   (pinned version as of this writing: **26.08.0.153** → filename
+   — if the pinned version isn't on that page (nixpkgs sometimes pins a
+   beta/tech-preview release), try
+   https://www.citrix.com/downloads/workspace-app/betas-and-tech-previews/workspace-app-tp-for-linux.html
+   instead. (pinned version as of this writing: **26.08.0.153** → filename
    `linuxx64-26.08.0.153.tar.gz`; since `nixpkgs` tracks unstable this drifts
-   often — `nixos-rebuild` always prints the exact filename/version it currently
-   expects, so just match that)
+   often — `nixos-rebuild`'s error output always prints the exact
+   filename/version and URL it currently expects, so just match that)
 2. Add it to the Nix store so the build can find it:
    ```sh
    nix-prefetch-url file://$PWD/linuxx64-<version>.tar.gz
