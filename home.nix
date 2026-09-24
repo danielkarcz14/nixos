@@ -109,6 +109,9 @@
     slop
     xorg.xev
     neovim
+    gcc
+    gnumake
+    ripgrep
     # Wayland tools (pro Niri)
     grim              # screenshot (nahrazuje maim)
     slurp             # region select (nahrazuje slop)
