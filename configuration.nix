@@ -20,7 +20,6 @@
 
   services.xserver = {
 	enable = true;
-	windowManager.qtile.enable = true;
 	displayManager.sessionCommands = ''
 	  ${pkgs.xwallpaper}/bin/xwallpaper --zoom /home/daniel/Downloads/walls/wolf.jpg
 	  ${pkgs.xset}/bin/xset r rate 200 35 & 

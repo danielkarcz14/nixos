@@ -97,7 +97,6 @@
     --paging=auto
   '';
 
-  home.file.".config/qtile".source = ./qtile;
   home.file.".config/niri".source = ./niri;
 
   home.packages = with pkgs; [
