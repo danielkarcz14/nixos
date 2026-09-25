@@ -19,37 +19,33 @@ in
       (
         { pkgs, ... }:
         {
-          networking.hostName = "nixos-laptop"; # change to whatever you want
+          # ASUS Zenbook 14 OLED (UX3402ZA) — i5-1240P, Intel Iris Xe, 2880x1800@90 OLED
+          networking.hostName = "nixos-laptop";
 
-          # Safe default that works for Intel/AMD/hybrid — swap or extend once the
-          # real GPU is known (see TODO block below).
-          hardware.graphics.enable = true;
+          # Intel Iris Xe — iHD VA-API driver pro HW dekódování videa (YouTube, Teams)
+          hardware.graphics = {
+            enable = true;
+            extraPackages = with pkgs; [ intel-media-driver ];
+          };
 
-          # Citrix - musí přijmout EULA
-          nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-            "citrix-workspace"
-          ];
+          # EFI oddíl je jen 260 MB a sdílený s Windows → mountuje se na /boot/efi, ne /boot.
+          # /boot pak leží na ext4 rootu (GRUB ho umí číst), takže se kernely+initrd
+          # nekopírují na malý ESP a ten se nezaplní. Viz README, sekce instalace.
+          boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-          # TODO: fill in once installed on the actual laptop hardware
-          # Common laptop-specific things you'll likely want:
-          #
-          # - Power management
-          # services.tlp.enable = true;              # or services.power-profiles-daemon.enable (noctalia's recommendedServices already turns this on)
-          # powerManagement.enable = true;
-          #
-          # - Touchpad
-          # services.libinput.enable = true;
-          #
-          # - Backlight control
-          # programs.light.enable = true;
-          #
-          # - GPU driver specifics (depends on the laptop; hardware.graphics.enable above covers the common case):
-          #   * AMD-only: services.xserver.videoDrivers = [ "amdgpu" ];
-          #   * NVIDIA hybrid (Optimus): hardware.nvidia.prime config — see NixOS wiki
-          #
-          # - Bluetooth (usually covered by noctalia recommendedServices above, but if not:)
-          # hardware.bluetooth.enable = true;
-          # services.blueman.enable = true;
+          # Dual boot: Windows drží hardwarové hodiny v lokálním čase — bez tohohle
+          # se čas po přepnutí OS posune o 1–2 h. Po odstranění Windows smazat.
+          time.hardwareClockInLocalTime = true;
+
+          # Interní displej — ověř název přes `niri msg outputs` (typicky eDP-1)
+          home-manager.users.daniel.wayland.windowManager.niri.settings.output = {
+            _args = [ "eDP-1" ];
+            mode = "2880x1800@90.000";
+            scale = 1.75;
+          };
+
+          # Power management řeší power-profiles-daemon z noctalia recommendedServices
+          # (TLP NEzapínat — konfliktuje s ním). Touchpad řeší niri (settings.input.touchpad).
         }
       )
     ];

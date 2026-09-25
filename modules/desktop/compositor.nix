@@ -3,12 +3,19 @@
   flake.modules.nixos.desktop =
     { pkgs, ... }:
     {
-      # Required for the NVIDIA kernel modules (nvidia/nvidia_modeset/nvidia_drm) to be
-      # loaded, even though there's no X11 window manager anymore — niri is Wayland-only.
+      # Na desktopu nutné kvůli načtení NVIDIA kernel modulů (services.xserver.videoDrivers),
+      # i když niri je čistě Wayland — na laptopu neškodí, tak to zůstává sdílené.
       services.xserver.enable = true;
       services.displayManager.ly.enable = true;
 
       programs.niri.enable = true;
+
+      environment.sessionVariables = {
+        # Electron apps (Discord, Slack, Teams) → nativní Wayland (jinak rozmazané přes XWayland při scale != 1)
+        NIXOS_OZONE_WL = "1";
+        # Firefox nativní Wayland
+        MOZ_ENABLE_WAYLAND = "1";
+      };
 
       # xdg-desktop-portal pro Wayland (potřeba pro screensharing, file pickers atd.)
       xdg.portal = {
@@ -29,14 +36,8 @@
           portalPackage = null;
           xwaylandSatellitePackage = null;
 
+          # Monitor setup (settings.output) je per-host v modules/hosts/*.nix.
           settings = {
-            # Monitor setup — force 180Hz on the MSI ultrawide
-            output = {
-              _args = [ "DP-2" ];
-              mode = "3440x1440@180.000";
-              scale = 1.0;
-            };
-
             input = {
               keyboard.xkb.layout = "us";
               touchpad = {
@@ -137,6 +138,10 @@
               "XF86AudioLowerVolume".spawn = [ "noctalia" "msg" "volume-down" ];
               "XF86AudioMute".spawn = [ "noctalia" "msg" "volume-mute" ];
               "XF86AudioMicMute".spawn = [ "noctalia" "msg" "mic-mute" ];
+
+              # === Brightness (laptop klávesy, na desktopu se nic nestane) ===
+              "XF86MonBrightnessUp".spawn = [ "noctalia" "msg" "brightness-up" ];
+              "XF86MonBrightnessDown".spawn = [ "noctalia" "msg" "brightness-down" ];
 
               # === Noctalia ===
               "Mod+Space".spawn = [ "noctalia" "msg" "panel-toggle" "launcher" ];

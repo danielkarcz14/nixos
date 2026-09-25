@@ -18,31 +18,16 @@ in
 
       ../../hosts/desktop/hardware-configuration.nix
 
-      (
-        { pkgs, ... }:
-        {
-          networking.hostName = "nixos-btw";
+      {
+        networking.hostName = "nixos-btw";
 
-          # === NVIDIA + Wayland env vars ===
-          environment.sessionVariables = {
-            # Electron apps (Discord, VSCode, Slack) → nativní Wayland
-            NIXOS_OZONE_WL = "1";
-            # Firefox nativní Wayland
-            MOZ_ENABLE_WAYLAND = "1";
-            # Kurzor fix na NVIDIA (občas se hodí)
-            WLR_NO_HARDWARE_CURSORS = "1";
-          };
-
-          # Citrix + Steam - musí přijmout EULA / jsou unfree
-          nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-            "citrix-workspace"
-            "steam"
-            "steam-original"
-            "steam-run"
-            "steam-unwrapped"
-          ];
-        }
-      )
+        # Monitor setup — force 180Hz on the MSI ultrawide
+        home-manager.users.daniel.wayland.windowManager.niri.settings.output = {
+          _args = [ "DP-2" ];
+          mode = "3440x1440@180.000";
+          scale = 1.0;
+        };
+      }
     ];
   };
 }

@@ -9,7 +9,7 @@
 
       users.users.daniel = {
         isNormalUser = true;
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel" "networkmanager" ];
         packages = with pkgs; [
           tree
         ];
