@@ -6,7 +6,15 @@
       # Na desktopu nutné kvůli načtení NVIDIA kernel modulů (services.xserver.videoDrivers),
       # i když niri je čistě Wayland — na laptopu neškodí, tak to zůstává sdílené.
       services.xserver.enable = true;
-      services.displayManager.ly.enable = true;
+
+      # Login screen: noctalia-greeter (greetd) — vzhled (wallpaper, barvy, font, monitory)
+      # se synchronizuje z noctalia shellu, viz shell.greeter_sync v noctalia.nix.
+      services.displayManager.noctalia-greeter = {
+        enable = true;
+        # Sync vzhledu přes polkit bez zadávání hesla
+        passwordlessSyncUsers = [ "daniel" ];
+        settings.keyboard.layout = "us";
+      };
 
       programs.niri.enable = true;
 

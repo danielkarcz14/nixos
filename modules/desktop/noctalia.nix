@@ -26,6 +26,8 @@
               enabled = true;
               default.path = "/home/daniel/Pictures/wallpapers/wolf.jpg";
             };
+            # Automaticky kopíruje vzhled do noctalia-greeter při změně wallpaperu/tématu/fontu
+            shell.greeter_sync.auto_sync = true;
           };
         };
       };
