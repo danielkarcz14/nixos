@@ -9,9 +9,15 @@
         home.packages = with pkgs; [
           chromium
         ];
-
-        # PWA aplikace (přes Chromium --app)
-        xdg.desktopEntries.outlook = {
+       xdg.mimeApps.defaultApplications = {
+          "text/html" = [ "firefox.desktop" ];
+          "x-scheme-handler/http" = [ "firefox.desktop" ];
+          "x-scheme-handler/https" = [ "firefox.desktop" ];
+          "x-scheme-handler/about" = [ "firefox.desktop" ];
+          "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+          "x-scheme-handler/slack" = [ "slack.desktop" ];
+        };
+       xdg.desktopEntries.outlook = {
           name = "Outlook";
           genericName = "Email";
           comment = "Microsoft Outlook Web";

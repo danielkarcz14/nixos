@@ -10,11 +10,12 @@
         };
       };
 
-      # GitHub CLI — `gh auth login`, zároveň slouží jako git credential helper pro HTTPS
       programs.gh = {
         enable = true;
         gitCredentialHelper.enable = true;
       };
+
+      programs.lazygit.enable = true;
     };
   };
 }
