@@ -46,6 +46,12 @@ in
 
           # Power management řeší power-profiles-daemon z noctalia recommendedServices
           # (TLP NEzapínat — konfliktuje s ním). Touchpad řeší niri (settings.input.touchpad).
+
+          # Aktualizace firmwaru (BIOS, SSD, …) z Linuxu: `fwupdmgr refresh && fwupdmgr update`
+          services.fwupd.enable = true;
+
+          # Intel tepelný management — méně throttlingu a přehřívání
+          services.thermald.enable = true;
         }
       )
     ];
