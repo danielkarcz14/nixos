@@ -13,6 +13,12 @@
         tealdeer
         pciutils
         usbutils
+
+        # Archivy
+        unzip
+        zip
+        p7zip
+        unrar # unfree
       ];
     };
 }
