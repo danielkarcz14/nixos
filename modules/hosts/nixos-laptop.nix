@@ -44,6 +44,11 @@ in
             scale = 1.75;
           };
 
+          # X11 apky (Citrix) přes xwayland-satellite dostanou nativní rozlišení bez škálování
+          # → drobné. Xft.dpi = 96 × 1.75; Citrix s DPIMatchingEnabled ho předá do session.
+          home-manager.users.daniel.wayland.windowManager.niri.settings.spawn-sh-at-startup =
+            "echo 'Xft.dpi: 168' | ${pkgs.xrdb}/bin/xrdb -merge";
+
           # Power management řeší power-profiles-daemon z noctalia recommendedServices
           # (TLP NEzapínat — konfliktuje s ním). Touchpad řeší niri (settings.input.touchpad).
 

@@ -65,8 +65,8 @@
               xcursor-size = 24;
             };
 
-            # Spawn xwayland-satellite at startup (for X11 apps)
-            spawn-at-startup = "xwayland-satellite";
+            # xwayland-satellite (X11 apky) si niri ≥ 25.08 spouští sám on-demand,
+            # stačí ho mít v PATH (wayland-utils.nix).
 
             binds = {
               # === Basic session ===

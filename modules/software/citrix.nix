@@ -5,7 +5,7 @@
     {
       home-manager.users.daniel = {
         home.packages = with pkgs; [
-# citrix-workspace
+	     citrix-workspace
         ];
 
         xdg.mimeApps = {
