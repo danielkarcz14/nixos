@@ -11,6 +11,7 @@
           gnumake
           ripgrep
           claude-code
+          codex
         ];
       };
     };
