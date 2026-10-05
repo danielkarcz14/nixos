@@ -47,7 +47,11 @@
           # Monitor setup (settings.output) je per-host v modules/hosts/*.nix.
           settings = {
             input = {
-              keyboard.xkb.layout = "us";
+              keyboard.xkb = {
+                layout = "us,cz";
+                variant = ",qwerty";
+                options = "grp:alt_shift_toggle";
+              };
               touchpad = {
                 tap = { };
                 natural-scroll = { };
@@ -72,9 +76,6 @@
               xcursor-theme = "default";
               xcursor-size = 24;
             };
-
-            # xwayland-satellite (X11 apky) si niri ≥ 25.08 spouští sám on-demand,
-            # stačí ho mít v PATH (wayland-utils.nix).
 
             binds = {
               # === Basic session ===
