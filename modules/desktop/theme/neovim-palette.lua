@@ -1,0 +1,17 @@
+return {
+  bg = "{{colors.terminal_background.default.hex}}",
+  bg_dark = "{{colors.surface_container_low.default.hex}}",
+  bg_highlight = "{{colors.surface_container_high.default.hex}}",
+  fg = "{{colors.terminal_foreground.default.hex}}",
+  fg_dark = "{{colors.on_surface_variant.default.hex}}",
+  fg_gutter = "{{colors.outline.default.hex}}",
+  comment = "{{colors.outline.default.hex}}",
+  blue = "{{colors.terminal_normal_blue.default.hex}}",
+  cyan = "{{colors.terminal_normal_cyan.default.hex}}",
+  green = "{{colors.terminal_normal_green.default.hex}}",
+  magenta = "{{colors.terminal_normal_magenta.default.hex}}",
+  orange = "{{colors.tertiary.default.hex}}",
+  red = "{{colors.terminal_normal_red.default.hex}}",
+  yellow = "{{colors.terminal_normal_yellow.default.hex}}",
+  border = "{{colors.outline_variant.default.hex}}",
+}

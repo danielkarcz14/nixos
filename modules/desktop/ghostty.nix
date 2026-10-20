@@ -5,6 +5,7 @@
       programs.ghostty = {
         enable = true;
         settings = {
+          theme = "noctalia";
           # Průhlednost
           background-opacity = 0.75;
 

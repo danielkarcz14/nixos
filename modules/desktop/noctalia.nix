@@ -18,6 +18,13 @@
         {
           imports = [ inputs.noctalia.homeModules.default ];
 
+          xdg.configFile."noctalia/templates/neovim.lua".source = ./theme/neovim-palette.lua;
+          # Replace the previous local TokyoNight plugin configuration.
+          xdg.configFile."nvim/lua/plugins/colors.lua" = {
+            source = ./theme/neovim-colors.lua;
+            force = true;
+          };
+
           # Whole look lives in config.toml below. The GUI still writes its tweaks to
           # ~/.local/state/noctalia/settings.toml, which overrides this file — to keep a
           # GUI change, copy it here and empty that file.
@@ -42,6 +49,14 @@
                 wallpaper_scheme = "m3-content";
                 builtin = "Catppuccin";
                 community_palette = "Everforest Alt";
+                templates = {
+                  enable_builtin_templates = true;
+                  builtin_ids = [ "ghostty" ];
+                  user.neovim = {
+                    input_path = "$XDG_CONFIG_HOME/noctalia/templates/neovim.lua";
+                    output_path = "$XDG_CACHE_HOME/noctalia/neovim-palette.lua";
+                  };
+                };
               };
 
               wallpaper = {
