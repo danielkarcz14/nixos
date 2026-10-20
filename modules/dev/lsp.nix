@@ -1,4 +1,3 @@
-# LSP servery pro Neovim (~/.config/nvim/lua/config/lsp.lua)
 { ... }:
 {
   flake.modules.nixos.dev =
@@ -6,11 +5,11 @@
     {
       home-manager.users.daniel = {
         home.packages = with pkgs; [
-          lua-language-server # Lua
-          nil # Nix
-          alejandra # formátovač pro .nix, volá ho nil
-          clang-tools # clangd pro C/C++
-          zls # Zig
+          lua-language-server
+          nil
+          alejandra
+          clang-tools
+          zls
         ];
       };
     };
