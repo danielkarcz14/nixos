@@ -2,6 +2,8 @@
 {
   flake.modules.nixos.shell = {
     home-manager.users.daniel = {
+      home.sessionPath = [ "$HOME/bin" ];
+
       programs.bash = {
         enable = true;
         shellAliases = {
@@ -15,6 +17,9 @@
           nrt() { sudo nixos-rebuild test   --flake "$HOME/nixos-dotfiles#$(hostname)" "$@"; }
           nrb() { sudo nixos-rebuild boot   --flake "$HOME/nixos-dotfiles#$(hostname)" "$@"; }
           nfu() { nix flake update "$HOME/nixos-dotfiles"; }
+
+          # fakturace (Typst + Toggl), např. `faktura -nova -pdf -open`
+          faktura() { "$HOME/Downloads/osvc_prehled/fakturace_ds/faktury_vydane/faktura.sh" "$@"; }
         '';
       };
     };
