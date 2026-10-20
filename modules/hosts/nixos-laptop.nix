@@ -13,6 +13,7 @@ in
       nixos.shell
       nixos.dev
       nixos.software
+      nixos.fingerprint
 
       ../../hosts/laptop/hardware-configuration.nix
 

@@ -14,6 +14,7 @@ modules/
   dev/                 # git, editor/CLI tooling (both hosts)
   software/            # chat/media/browser/citrix apps (both hosts); steam (nixos-btw only)
   hardware/nvidia.nix  # NVIDIA driver + KMS setup — nixos-btw only, NOT pulled in for the laptop
+  hardware/fingerprint.nix # ELAN fingerprint driver + fprintd — nixos-laptop only
   hosts/               # nixos-btw.nix, nixos-laptop.nix — pick which tags each host gets
 ```
 
