@@ -45,6 +45,8 @@ in
             scale = 1.75;
           };
 
+          home-manager.users.daniel.programs.noctalia.settings.widget.battery.enabled = true;
+
           # X11 apky (Citrix) přes xwayland-satellite dostanou nativní rozlišení bez škálování
           # → drobné. Xft.dpi = 96 × 1.75; Citrix s DPIMatchingEnabled ho předá do session.
           home-manager.users.daniel.wayland.windowManager.niri.settings.spawn-sh-at-startup =

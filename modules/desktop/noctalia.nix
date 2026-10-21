@@ -69,36 +69,27 @@
                 margin_edge = 5;
                 margin_ends = 300;
                 widget_spacing = 10;
-                start = [ "workspaces" ];
+                start = [
+                  "workspaces"
+                  "ram"
+                  "cpu"
+                  "temp"
+                ];
                 center = [
-                  "clock"
-                  "weather"
                   "media"
+                  "clock"
                 ];
                 end = [
-                  "cpu"
-                  "ram"
-                  "tray"
-                  "notifications"
-                  "clipboard"
-                  "network"
-                  "bluetooth"
+                  "keyboard_layout"
+                  "weather"
                   "volume"
-                  "brightness"
                   "battery"
-                  "control-center"
+                  "tray"
                   "session"
                 ];
               };
 
-              widget = lib.genAttrs [
-                "battery"
-                "bluetooth"
-                "brightness"
-                "control-center"
-                "network"
-                "notifications"
-              ] (_: { enabled = false; });
+              widget.battery.enabled = lib.mkDefault false;
 
               dock = {
                 enabled = true;
