@@ -5,19 +5,15 @@
         enable = true;
         settings = {
           theme = "noctalia";
-          # Průhlednost
-          background-opacity = 0.85;
+          background-opacity = 0.8;
 
-          # Font
           font-family = "JetBrainsMono Nerd Font";
           font-size = 16;
 
-          # Vzhled
           window-padding-x = 8;
           window-padding-y = 8;
           cursor-style = "block";
 
-          # Šetří místo — bez tabs bar když je jen 1 tab
           window-decoration = "none";
         };
       };

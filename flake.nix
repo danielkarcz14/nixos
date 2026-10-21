@@ -8,7 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia.url = "github:noctalia-dev/noctalia";
-    # Note: záměrně NEmáme inputs.nixpkgs.follows — zachovává kompatibilitu s Cachix cache
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

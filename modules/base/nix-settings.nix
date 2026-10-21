@@ -1,10 +1,8 @@
-{ ... }:
-{
+{...}: {
   flake.modules.nixos.base = {
     nix.settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
 
-      # Cachix binary caches
       extra-substituters = [
         "https://noctalia.cachix.org"
       ];

@@ -112,7 +112,6 @@ vim.lsp.config['nil_ls'] = {
     }
 }
 
--- C / C++ via clangd
 vim.lsp.config['clangd'] = {
     cmd = { 'clangd' },
     filetypes = { 'c', 'cpp', 'objc', 'objcpp' },

@@ -1,4 +1,3 @@
-# Declares the nixos-btw (desktop) NixOS configuration by composing named modules.
 { config, inputs, ... }:
 let
   nixos = config.flake.modules.nixos;
@@ -21,7 +20,6 @@ in
       {
         networking.hostName = "nixos-btw";
 
-        # Monitor setup — force 180Hz on the MSI ultrawide
         home-manager.users.daniel.wayland.windowManager.niri.settings.output = {
           _args = [ "DP-2" ];
           mode = "3440x1440@180.000";
