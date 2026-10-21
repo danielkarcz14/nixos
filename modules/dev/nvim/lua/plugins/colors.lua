@@ -1,0 +1,1 @@
+../../../../desktop/theme/neovim-colors.lua

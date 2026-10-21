@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   flake.modules.nixos.desktop = {
     home-manager.users.daniel = {
       programs.ghostty = {
@@ -7,7 +6,7 @@
         settings = {
           theme = "noctalia";
           # Průhlednost
-          background-opacity = 0.75;
+          background-opacity = 0.85;
 
           # Font
           font-family = "JetBrainsMono Nerd Font";

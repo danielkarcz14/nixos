@@ -3,7 +3,10 @@
   flake.modules.nixos.software =
     { pkgs, ... }:
     {
-      programs.firefox.enable = true;
+      programs.firefox = {
+        enable = true;
+        preferences."browser.fullscreen.autohide" = false;
+      };
 
       home-manager.users.daniel = {
         home.packages = with pkgs; [
