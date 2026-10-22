@@ -184,7 +184,7 @@
                 show_caps_lock = true;
                 show_keyboard_layout = true;
                 show_login_button = true;
-                show_media = true;
+                show_media = false;
                 show_session_buttons = true;
                 show_unlock_hint = true;
                 show_weather = true;
