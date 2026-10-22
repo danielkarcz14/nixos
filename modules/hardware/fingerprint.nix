@@ -17,6 +17,11 @@
       });
     in
     {
+      # greetd uses the login PAM stack. Logging in by fingerprint leaves
+      # GNOME Keyring locked, so it asks for the password after login.
+      # Fingerprint unlock in the running session remains available.
+      security.pam.services.login.fprintAuth = false;
+
       services.fprintd = {
         enable = true;
         package = pkgs.fprintd.override { inherit libfprint; };

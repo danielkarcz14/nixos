@@ -1,5 +1,12 @@
 {inputs, ...}: {
-  flake.modules.nixos.desktop = {...}: {
+  flake.modules.nixos.desktop = {config, ...}: let
+    laptop = config.networking.hostName == "nixos-laptop";
+    lockOutput = if laptop then "eDP-1" else "DP-2";
+    lockCenterX = if laptop then 823.0 else 1720.0;
+    lockCenterY = if laptop then 847.0 else 1258.0;
+    lockWidth = if laptop then 1646.0 else 3440.0;
+    lockHeight = if laptop then 1029.0 else 1440.0;
+  in {
     imports = [inputs.noctalia.nixosModules.default];
 
     programs.noctalia = {
@@ -7,7 +14,7 @@
       recommendedServices.enable = true;
     };
 
-    home-manager.users.daniel = {lib, ...}: let
+    home-manager.users.daniel = {lib, pkgs, ...}: let
       wallpaper = "/home/daniel/Pictures/wallpapers/y4cxvsb8hbk71.png";
     in {
       imports = [inputs.noctalia.homeModules.default];
@@ -17,6 +24,17 @@
       home.activation.noctaliaSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
         f="$HOME/.local/state/noctalia/settings.toml"
         if [ -L "$f" ]; then rm "$f"; fi
+        # GUI settings override config.toml. Nix owns the entire lockscreen
+        # layout, so discard only its GUI overrides and keep every other tweak.
+        if [ -f "$f" ] && ${pkgs.gnugrep}/bin/grep -q '^\[lockscreen_widgets\]$' "$f"; then
+          tmp=$(${pkgs.coreutils}/bin/mktemp "$f.XXXXXX")
+          ${pkgs.gawk}/bin/awk '
+            /^\[lockscreen_widgets\]$/ { skip = 1; next }
+            skip && /^\[/ && !/^\[lockscreen_widgets\./ { skip = 0 }
+            !skip { print }
+          ' "$f" > "$tmp"
+          ${pkgs.coreutils}/bin/mv "$tmp" "$f"
+        fi
       '';
 
       programs.noctalia = {
@@ -157,21 +175,21 @@
           lockscreen_widgets = {
             enabled = false;
             schema_version = 2;
-            widget_order = ["lockscreen-login-box@DP-2"];
+            widget_order = ["lockscreen-login-box@${lockOutput}"];
             grid = {
               cell_size = 16;
               major_interval = 4;
               visible = true;
             };
-            widget."lockscreen-login-box@DP-2" = {
+            widget."lockscreen-login-box@${lockOutput}" = {
               type = "login_box";
-              output = "DP-2";
-              cx = 1720.0;
-              cy = 1258.0;
+              output = lockOutput;
+              cx = lockCenterX;
+              cy = lockCenterY;
               box_width = 810.0;
               box_height = 196.0;
-              placement_width = 3440.0;
-              placement_height = 1440.0;
+              placement_width = lockWidth;
+              placement_height = lockHeight;
               rotation = 0.0;
               settings = {
                 layout = "regular";
@@ -187,7 +205,7 @@
                 show_media = false;
                 show_session_buttons = true;
                 show_unlock_hint = true;
-                show_weather = true;
+                show_weather = false;
               };
             };
           };
