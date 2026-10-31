@@ -8,6 +8,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia.url = "github:noctalia-dev/noctalia";
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

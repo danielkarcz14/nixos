@@ -32,6 +32,8 @@
         xwaylandSatellitePackage = null;
 
         settings = {
+          prefer-no-csd = {};
+
           input = {
             keyboard.xkb = {
               layout = "us,cz";
@@ -54,8 +56,11 @@
               {proportion = 0.66667;}
             ];
             default-column-width.proportion = 0.5;
-            focus-ring.off = {};
             border.off = {};
+            focus-ring = {
+              width = 2;
+              active-color = "#415b73";
+            };
           };
 
           cursor = {

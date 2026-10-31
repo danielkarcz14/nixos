@@ -15,6 +15,7 @@ in {
       nixos.dev
       nixos.docker
       nixos.software
+      nixos.plasma
       nixos.fingerprint
 
       ../../hosts/laptop/hardware-configuration.nix
@@ -35,12 +36,12 @@ in {
           home-manager.users.daniel.wayland.windowManager.niri.settings.output = {
             _args = ["eDP-1"];
             mode = "2880x1800@90.000";
-            scale = 1.75;
+            scale = 1.5;
           };
 
           home-manager.users.daniel.programs.noctalia.settings.widget.battery.enabled = true;
 
-          home-manager.users.daniel.wayland.windowManager.niri.settings.spawn-sh-at-startup = "echo 'Xft.dpi: 168' | ${pkgs.xrdb}/bin/xrdb -merge";
+          home-manager.users.daniel.wayland.windowManager.niri.settings.spawn-sh-at-startup = "echo 'Xft.dpi: 144' | ${pkgs.xrdb}/bin/xrdb -merge";
 
           services.fwupd.enable = true;
 

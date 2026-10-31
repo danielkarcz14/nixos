@@ -14,7 +14,7 @@
           window-padding-y = 8;
           cursor-style = "block";
 
-          window-decoration = "none";
+          window-decoration = "server";
         };
       };
     };
