@@ -36,7 +36,7 @@ in {
           home-manager.users.daniel.wayland.windowManager.niri.settings.output = {
             _args = ["eDP-1"];
             mode = "2880x1800@90.000";
-            scale = 1.5;
+            scale = 1.75;
           };
 
           home-manager.users.daniel.programs.noctalia.settings.widget.battery.enabled = true;
