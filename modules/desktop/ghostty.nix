@@ -4,11 +4,13 @@
       programs.ghostty = {
         enable = true;
         settings = {
-          theme = "noctalia";
-          background-opacity = 0.8;
+          theme = "Atom One Dark";
+          background = "#282c34";
+          background-opacity = 0.9;
+          window-padding-color = "extend";
 
-          font-family = "JetBrainsMono Nerd Font";
-          font-size = 16;
+          font-family = "Lilex Nerd Font";
+          font-size = 13;
 
           window-padding-x = 8;
           window-padding-y = 8;

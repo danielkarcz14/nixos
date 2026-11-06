@@ -30,6 +30,30 @@ return {
     }
     dap.configurations.cpp = dap.configurations.c
 
+    dap.adapters.python = {
+      type = "executable",
+      command = "python3",
+      args = { "-m", "debugpy.adapter" },
+    }
+
+    dap.configurations.python = {
+      {
+        name = "Launch file",
+        type = "python",
+        request = "launch",
+        program = "${file}",
+        cwd = "${workspaceFolder}",
+        console = "integratedTerminal",
+        pythonPath = function()
+          local venv = vim.env.VIRTUAL_ENV or (vim.fn.getcwd() .. "/.venv")
+          if vim.fn.executable(venv .. "/bin/python") == 1 then
+            return venv .. "/bin/python"
+          end
+          return "python3"
+        end,
+      },
+    }
+
     dap.listeners.before.attach.dapui_config = dapui.open
     dap.listeners.before.launch.dapui_config = dapui.open
     dap.listeners.before.event_terminated.dapui_config = dapui.close

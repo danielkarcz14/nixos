@@ -48,7 +48,7 @@
           };
 
           layout = {
-            gaps = 6;
+            gaps = 0;
             center-focused-column = "never";
             preset-column-widths._children = [
               {proportion = 0.33333;}
@@ -57,10 +57,12 @@
             ];
             default-column-width.proportion = 0.5;
             border.off = {};
-            focus-ring = {
-              width = 2;
-              active-color = "#415b73";
-            };
+            focus-ring.off = {};
+          };
+
+          window-rule = {
+            match._props.is-focused = false;
+            opacity = 0.85;
           };
 
           cursor = {

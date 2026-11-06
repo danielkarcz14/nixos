@@ -9,6 +9,7 @@
         xwayland-satellite
 
         nerd-fonts.jetbrains-mono
+        nerd-fonts.lilex
         nerd-fonts.symbols-only
       ];
     };

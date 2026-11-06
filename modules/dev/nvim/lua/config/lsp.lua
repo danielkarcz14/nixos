@@ -38,6 +38,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
         local buf    = args.buf
+
+        if client.name == 'basedpyright' then
+            vim.lsp.semantic_tokens.enable(false, { bufnr = buf, client_id = client.id })
+        end
         local map    = function(mode, lhs, rhs) vim.keymap.set(mode, lhs, rhs, { buffer = buf }) end
 
         map('n', 'K', vim.lsp.buf.hover)
@@ -82,10 +86,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
-vim.lsp.config['luals'] = {
-    cmd = { 'lua-language-server' },
-    filetypes = { 'lua' },
-    root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+vim.lsp.config('lua_ls', {
     settings = {
         Lua = {
             runtime = { version = 'LuaJIT' },
@@ -97,12 +98,9 @@ vim.lsp.config['luals'] = {
             telemetry = { enable = false },
         },
     },
-}
+})
 
-vim.lsp.config['nil_ls'] = {
-    cmd = { 'nil' },
-    filetypes = { 'nix' },
-    root_markers = { 'flake.nix', 'default.nix', '.git' },
+vim.lsp.config('nil_ls', {
     settings = {
         ['nil'] = {
             formatting = {
@@ -110,18 +108,9 @@ vim.lsp.config['nil_ls'] = {
             }
         }
     }
-}
+})
 
-vim.lsp.config['clangd'] = {
-    cmd = { 'clangd' },
-    filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
-    root_markers = { 'compile_commands.json', '.clangd', 'configure.ac', 'Makefile', '.git' },
-}
-
-vim.lsp.config['zls'] = {
-    cmd = { 'zls' },
-    filetypes = { 'zig', 'zir' },
-    root_markers = { 'zls.json', 'build.zig', '.git' },
+vim.lsp.config('zls', {
     settings = {
         zls = {
             enable_build_on_save = true,
@@ -130,7 +119,22 @@ vim.lsp.config['zls'] = {
             enable_snippets = true,
         }
     }
-}
+})
+
+vim.lsp.config('basedpyright', {
+    settings = {
+        basedpyright = {
+            disableOrganizeImports = true,
+            analysis = { typeCheckingMode = 'standard' },
+        },
+    },
+})
+
+vim.lsp.config('ruff', {
+    on_attach = function(client)
+        client.server_capabilities.hoverProvider = false
+    end,
+})
 
 vim.filetype.add({
     extension = {
@@ -138,4 +142,4 @@ vim.filetype.add({
     },
 })
 
-vim.lsp.enable({ 'luals', 'nil_ls', 'clangd', 'zls' })
+vim.lsp.enable({ 'lua_ls', 'nil_ls', 'clangd', 'zls', 'basedpyright', 'ruff' })

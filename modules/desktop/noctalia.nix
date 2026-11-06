@@ -72,10 +72,11 @@
 
           bar.default = {
             thickness = 30;
-            background_opacity = 0.85;
+            background_opacity = 0.9;
             font_family = "JetBrains Mono";
-            margin_edge = 5;
-            margin_ends = 300;
+            margin_edge = 0;
+            margin_ends = 0;
+            radius = 0;
             widget_spacing = 10;
             start = [
               "workspaces"

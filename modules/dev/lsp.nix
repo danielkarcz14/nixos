@@ -10,6 +10,8 @@
           alejandra
           clang-tools
           zls
+          basedpyright
+          ruff
         ];
       };
     };
